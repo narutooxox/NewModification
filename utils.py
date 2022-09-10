@@ -1,6 +1,6 @@
 import logging
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
-from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM
+from info import *
 from imdb import IMDb
 import asyncio
 from pyrogram.types import Message, InlineKeyboardButton
@@ -13,6 +13,7 @@ from typing import List
 from database.users_chats_db import db
 from bs4 import BeautifulSoup
 import requests
+import aiohttp
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -375,3 +376,24 @@ def humanbytes(size):
         size /= power
         n += 1
     return str(round(size, 2)) + " " + Dic_powerN[n] + 'B'
+
+    url = f'https://api.shareus.in/shortLink'
+    params = {'token': SHORTENER_API,
+              'link': link,
+              'format': 'json'
+              }
+
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, params=params, raise_for_status=True, ssl=False) as response:
+                data = await response.json(content_type='text/html')
+                if data["status"] == "success":
+                    return data['shortlink']
+                else:
+                    logger.error(f"Error: {data['message']}")
+                    return f'https://api.shareus.in/directLink?token={SHORTENER_API}&link={link}'
+
+    except Exception as e:
+        logger.error(e)
+        return f'https://api.shareus.in/directLink?token={SHORTENER_API}&link={link}'
