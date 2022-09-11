@@ -65,3 +65,19 @@ LOG_STR += (f"MAX_LIST_ELM Found, long list will be shortened to first {MAX_LIST
 LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
 
 SHORTENER_API = environ.get("SHORTENER_API", "dXlx5jBbbdTGCXCNw4GKaIVWpgx1")
+
+     # Auto Delete For Group Message (Self Delete) #
+SELF_DELETE_SECONDS = int(environ.get('SELF_DELETE_SECONDS', 10))
+SELF_DELETE = environ.get('SELF_DELETE', True)
+if SELF_DELETE == "True":
+    SELF_DELETE = True
+
+    # Download Tutorial Button #
+DOWNLOAD_TEXT_NAME = environ.get("DOWNLOAD_TEXT_NAME", "🔻How To Download 🔻")
+DOWNLOAD_TEXT_URL = environ.get("DOWNLOAD_TEXT_URL", "https://www.google.com/")
+
+   # Custom Caption Under Button #
+CAPTION_BUTTON = environ.get("CAPTION_BUTTON", "Support ⚡")
+CAPTION_BUTTON_URL = environ.get("CAPTION_BUTTON_URL", "https://www.google.com/")
+
+YOUR_CHANNEL = environ.get("YOUR_CHANNEL", "https://www.google.com/")
